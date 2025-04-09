@@ -1,14 +1,23 @@
-import { Text, Button, TextInput, View, Alert, SafeAreaView, StyleSheet } from 'react-native';
+import { View, TextInput, Button } from "react-native";
+
+const LoginForm = ({ setPassword, setLogin, styles, handleLogin }) => {
+
+    return <View>
+        <TextInput
+            style={styles.input}
+            placeholder="Login"
+            onChangeText={setLogin}
+        />
+        <TextInput
+            style={styles.input}
+            placeholder="Hasło"
+            secureTextEntry
+            onChangeText={setPassword}
+        />
+        <Button title="Zaloguj się" onPress={handleLogin} />
+    </View>
 
 
-const LoginForm = ({ handleLogin, setPassword, setLogin, styles }) => {
-    return (
-        <View>
-            <TextInput style={styles.textInput} placeholder="Podaj login" onChangeText={setLogin} />
-            <TextInput secureTextEntry style={styles.textInput} placeholder="Podaj hasło" onChangeText={setPassword} />
-            <Button title="Zaloguj się" onPress={handleLogin} />
-        </View>
-    )
 }
 
 export default LoginForm;
