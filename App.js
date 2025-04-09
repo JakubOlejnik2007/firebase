@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import db from './firebaseConfig.js';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { Text, Button, TextInput, View, Alert, SafeAreaView, StyleSheet } from 'react-native';
+import bcrypt from 'react-native-bcrypt';
 
 import LoginForm from "./views/loginForm.js"
 import RegisterForm from './views/registerForm.js';
@@ -29,9 +30,9 @@ export default function App() {
 
       const userDoc = querySnapshot.docs[0];
       const userData = userDoc.data();
-
-      if (userData.password === password) {
-        Alert.alert("Sukces", `Witaj, ${userData.firstName} ${userData.lastName} !`);
+      console.log(userData)
+      if (bcrypt.compareSync(password, userData.password)) {
+        Alert.alert("Sukces", `Witaj, ${userData.firstname} ${userData.lastname} !`);
         setUser(userData);
       } else {
         Alert.alert("Błąd", "Niepoprawne hasło");
@@ -47,7 +48,7 @@ export default function App() {
       {
         !user ?
           <LoginForm setPassword={setPassword} setLogin={setLogin} styles={styles} handleLogin={handleLogin} /> : <View>
-            <Text>Witaj, {user.firstName} {user.lastName}</Text>
+            <Text>Witaj, {user.firstname} {user.lastname}</Text>
             <Button title="Wyloguj się" onPress={() => {
               setUser(null);
               Alert.alert("Sukces", "Poprawnie wylogowano");
